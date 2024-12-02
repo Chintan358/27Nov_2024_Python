@@ -8,9 +8,9 @@ f = (10,20,30,40,50)
 g = {10,20,30,40,50}
 h = dict({10:"Python"})
 
-print(type(a))
+print(type(a) , type(b))
 print(type(b))
-print(type(c))
+print(type(c))  
 print(type(d))
 print(type(e))
 print(type(f))
