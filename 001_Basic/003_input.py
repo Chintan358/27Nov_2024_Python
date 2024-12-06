@@ -18,3 +18,5 @@ fname,lname=input("enter your details : ").split()
 # print("Yuor fname is {1} and your lname is {0}".format(fname,lname))
 
 print(f"your fname is {fname} and lname is {lname}")
+
+
