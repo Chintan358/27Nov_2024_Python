@@ -15,7 +15,7 @@ for i in range(a,b):
 
     number = temp
 
-    ##############armstrong##################
+    ############## armstrong ##################
     sum =0
     while number != 0 : 
         rem = number%10
