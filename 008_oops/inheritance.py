@@ -1,23 +1,37 @@
 # parent - super - base
 class Pen:
 
-    color="Red"
-    company="Cello"
-    def __init__(self):
-        pass
+    
+    def __init__(self,color,company):
+        self.color = color
+        self.company=company
 
     def toWrite(self):
-        print("write calling")
+        print(self.color, self.company)
+
+
+class Slat:
+    def __init__(self,color):
+        self.color = color
+
+    def show(self):
+        print("self calling : ",self.color)
+
 
 #child-sub-derived
-class Notebook(Pen):
+class Notebook(Pen,Slat):
     
-    def __init__(self):
-        pass
+    def __init__(self,color,company):
+        Pen.__init__(self,color,company)
+        Slat.__init__(self,color)
 
     def disp(self):
         print("display calaing",self.color,self.company)
+    
 
-n  =Notebook()
+
+
+n  =Notebook("Red","Cello")
 n.toWrite()
 n.disp()
+n.show()
