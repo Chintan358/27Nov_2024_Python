@@ -32,6 +32,6 @@
 
 # persondata(name="test",email="test@gmail.com")
 
-k =  lambda a : a*a
+# k =  lambda a : a*a
 
-print(k(10))
+# print(k(10))

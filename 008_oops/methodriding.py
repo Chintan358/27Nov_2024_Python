@@ -7,6 +7,7 @@ class A:
 
 class B(A):
 
+   
     def show(self):
         print("B : Show mwthod calling")
     
