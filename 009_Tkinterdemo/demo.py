@@ -1,7 +1,25 @@
 from tkinter import *
-
+import mysql.connector
+from tkinter import messagebox
 top = Tk()
 top.geometry("500x500")
+
+
+def adduser():
+    username = e1.get()
+    email = e2.get()
+    phone = e3.get()
+    mydb = mysql.connector.connect(host="localhost",user="root",password="root",database="27nov_pyython")
+    mycursor = mydb.cursor()
+    qry = "insert into users values(%s,%s,%s,%s)"
+    val = (0,username,email,phone)
+    mycursor.execute(qry,val)
+    mydb.commit()
+    messagebox.showinfo("Information","Registration success")
+    e1.delete(0,END)
+    e2.delete(0,END)
+    e3.delete(0,END)
+    e1.focus_set()
 
 # btn1 = Button(top,text="Red", fg="red")
 # btn1.pack(side=LEFT)
@@ -60,7 +78,7 @@ e3 = Entry(top)
 e3.place(x=200,y=200)
 
 
-btn = Button(top,text="Submit",width=15)
+btn = Button(top,text="Submit",command=adduser,width=15)
 btn.place(x=200,y=250)
 
 top.mainloop()
