@@ -1,0 +1,15 @@
+Create environment : 
+py -m venv <env name>
+
+sTart env : 
+{en name}/Script/Activate
+
+Create django project : 
+py -m django startproject <projectname>
+
+Create app : .
+move to prject folder
+py manage.py startapp <app name>
+
+Run App : 
+py manage.py runserver

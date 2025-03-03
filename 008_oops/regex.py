@@ -48,3 +48,9 @@ import re
 #     print("invalid phone")
 # else : 
 #     print("valid")
+
+pettern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+password = "Abc@12388"
+
+x = re.match(pettern,password)
+print(x)

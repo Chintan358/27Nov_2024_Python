@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+            .tf {
+                height: 20px;
+                width: 150px;
+                border: 1px solid black;
+            }
+
+
+
+    </style>
+</head>
+<body>
+    <fieldset>
+        <legend>Registration form</legend>
+        <form action="" method="post">
+
+            <label for="uname">Username</label>
+            <input type="text" name="uname" id="uname" placeholder="Enter username" class="tf">
+            <br><br>
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" placeholder="enter email" class="tf">
+            <br><br>
+            <label for="pass">Password</label>
+            <input type="password" name="pass" id="pass" placeholder="Enter password" class="tf">
+            <br><br>
+            <label for="">Gender</label>
+            <input type="radio" name="gender" id="gender1" value="male" checked>Male
+            <input type="radio" name="gender" id="gender2" value="male">Female
+            <br><br>
+            <label for="">Languages</label>
+            <input type="checkbox" name="lang" value="gujarati">Gujarati
+            <input type="checkbox" name="lang" value="hindi">Hindi
+            <input type="checkbox" name="lang" value="english">English
+            <br><br>
+            <label for="">Country</label>
+            <select name="Country" id="country" class="tf">
+                <option value="in">India</option>
+                <option value="usa">USA</option>
+                <option value="uk">UK</option>
+            </select>
+            <br><br>
+            <label for="">Address</label>
+            <textarea name="" id="" cols="15" rows="2"></textarea>
+<br><br>
+            <input type="submit">
+            <input type="reset">
+            </form>
+        </fieldset>
+</body>
+</html>

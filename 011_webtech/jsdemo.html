@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+        function clickme()
+        {
+            // alert("clicked")
+            var data =  document.getElementById("data").value
+            var showdata = document.getElementById("showdata")
+            showdata.innerHTML=data
+        }
+
+        function changeinput()
+        {
+            var data = document.getElementById("data")
+
+            data.style.backgroundColor="black"
+            data.style.width="150px"
+            data.style.height="30px"
+            data.style.color="white"
+        }
+
+        function changebutton()
+        {
+            var btn = document.getElementById("btn")
+            btn.style.backgroundColor="red"
+            btn.style.width="80px"
+            btn.style.height="30px"
+            btn.style.color="white"
+            btn.style.border="1px solid black"
+        }
+
+        function changebutton1()
+        {
+            var btn = document.getElementById("btn")
+            btn.style.backgroundColor=""
+            btn.style.width=""
+            btn.style.height=""
+            btn.style.color=""
+            btn.style.border=""
+        }
+
+
+    </script>
+</head>
+<body>
+
+        <input type="text" id="data" onkeyup="clickme()" onfocus="changeinput()" >
+        <button onclick="clickme()" onmouseover="changebutton()" onmouseout="changebutton1()" id="btn">Click me</button>
+        <br>
+        <span id="showdata"></span>
+
+</body>
+</html>
