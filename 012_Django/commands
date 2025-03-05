@@ -13,3 +13,10 @@ py manage.py startapp <app name>
 
 Run App : 
 py manage.py runserver
+
+Database changes : 
+py manage.py makemigrations
+py manage.py migrate
+
+Create admin : 
+py manage.py createsuperuser
