@@ -1,6 +1,6 @@
 import Banker as b
 import Customer as c
-choice=0;
+choice=0
 while choice!=3:
     print("""
                     WELCOME TO PYTHON BANK MANAGEMENT SYSTEM
