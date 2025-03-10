@@ -6,3 +6,6 @@ class Student(models.Model):
     email = models.CharField(max_length=60)
     phone = models.CharField(max_length=15)
     age = models.IntegerField()
+
+
+    
