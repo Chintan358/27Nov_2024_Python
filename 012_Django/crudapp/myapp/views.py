@@ -11,8 +11,9 @@ def adduser(request):
         username = data.get('uname')
         email = data.get('email')
         age=data.get("age")
+        image = request.FILES['file']
 
-        User.objects.create(username=username,email=email,age=age)
+        User.objects.create(username=username,email=email,age=age,image=image)
         # user = User(username=username,email=email,age=age)
         # user.save()
         messages.add_message(request, messages.SUCCESS, "Registration success")
