@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script>
+
+            $(document).ready(function(){
+                
+               $.get('country',{},(rt)=>{
+
+                    rt.data.map(ele=>{
+                       
+                    })
+               })
+
+            })
+
+            const mydata = (value)=>{
+                $.get("test",{value},(rt)=>{
+
+                    $("#d_data").html(rt)
+
+                })
+            }
+
+    </script>
+
+
+</head>
+<body>
+    <h1>Welcome</h1>
+
+    <input type='text' onkeyup="mydata(value)">
+
+    <div id='d_data'></div>
+
+    <br>
+    <hr>
+
+    <select name="country" id="country">
+        <option value="0">---select country---</option>
+    </select>
+
+    <select name="state" id="state">
+        <option value="0">---select state---</option>
+    </select>
+
+    <select name="city" id="city">
+        <option value="0">---select city---</option>
+    </select>
+
+
+</body>
+</html>

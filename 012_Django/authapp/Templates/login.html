@@ -18,13 +18,25 @@
     
     {% if messages %}
     
-    <div class="alert alert-success alert-dismissible" role="alert">
+   
+     
         {% for message in messages %}
-        {{ message }}
+        {%if "error" in message.tags%}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+        {{ message }} 
          <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></a>
-    </div> 
+        </div> 
+        {%else%}
+        <div class="alert alert-success alert-dismissible" role="alert">
+            {{ message }} 
+             <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></a>
+            </div> 
+        {%endif%}
     {% endfor %}
     {% endif %}
+
+
+
 
 
 
