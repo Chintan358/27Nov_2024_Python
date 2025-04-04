@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-YUe2LzesAfftltw+PEaao2tjU/QATaW/rOitAq67e0CT0Zi2VVRL0oC4+gAaeBKu" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>Document</title>
+
+
+    <script>
+
+        $(document).ready(function(){
+            display()
+            $("#upbtn").hide()
+        })
+
+
+        const display = ()=>{
+           
+            $.get('display',{},(rt)=>{
+
+                rows = ""
+                rt.data.map(ele=>{
+
+                       rows+="<tr><td>"+ele.id+"</td><td>"+ele.username+"</td><td>"+ele.email+"</td><td>"+ele.age+"</td><td><button class='btn btn-danger' onclick='deletestudent("+ele.id+")'>Delete</button></td><td><button class='btn btn-primary' onclick='updatestudent("+ele.id+")'>Update</button></td></tr>"
+
+                })
+                $("#tdata").html(rows)
+            })
+        }
+
+        const addStudent = ()=>{
+
+                var uname = $("#uname").val()
+                var email = $("#email").val()
+                var age = $("#age").val()
+                var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value
+               
+                $.post('addstudent',{csrfmiddlewaretoken,uname,email,age},(rt)=>{
+                    alert(rt)
+                    display()
+                    $("#uname").val("")
+                    $("#email").val("")
+                    $("#age").val("")
+                })
+        }
+
+
+        const deletestudent = (sid)=>{
+            
+            $.get('deletestudent',{sid},(rt)=>{
+                alert(rt)
+                display()
+            })
+
+        }
+
+        const updatestudent = (sid)=>{
+            $.get('studentbyid',{sid},(rt)=>{
+               
+
+                $("#id").val(rt.data[0].id)
+                $("#uname").val(rt.data[0].username)
+                $("#email").val(rt.data[0].email)
+                $("#age").val(rt.data[0].age)
+
+
+                $("#upbtn").show()
+                $("#smbtn").hide()
+            })
+        }
+
+
+         
+
+
+        const editStudent = ()=>{
+
+            var id = $("#id").val()
+            var uname = $("#uname").val()
+            var email = $("#email").val()
+            var age = $("#age").val()
+            var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value
+
+            $.post('editstudent',{csrfmiddlewaretoken,uname,email,age,id},(rt)=>{
+                alert(rt)
+                display()
+                $("#id").val("")
+                $("#uname").val("")
+                $("#email").val("")
+                $("#age").val("")
+
+                $("#upbtn").hide()
+                $("#smbtn").show()
+            })
+            }
+
+            const search = (value)=>{
+
+                $.get('search',{value},(rt)=>{
+
+                    rows = ""
+                    rt.data.map(ele=>{
+
+                        rows+="<tr><td>"+ele.id+"</td><td>"+ele.username+"</td><td>"+ele.email+"</td><td>"+ele.age+"</td><td><button class='btn btn-danger' onclick='deletestudent("+ele.id+")'>Delete</button></td><td><button class='btn btn-primary' onclick='updatestudent("+ele.id+")'>Update</button></td></tr>"
+
+                    })
+                    $("#tdata").html(rows)
+                    })
+                                
+            }
+
+    </script>
+
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-lg-4 col-sm-12 card p-5">
+                <h2 align="center">Student Registration</h2>
+
+                <hr>
+                {%csrf_token    %}
+                <input type="hidden" id="id">
+                <div class="form-group">
+                     <label for="uname">Username</label>
+                    <input type="text" id="uname" name="uname" placeholder="Enter Username" class="form-control">
+                 </div>
+
+                 <div class="form-group">
+                    <label for="email">Email</label>
+                   <input type="text" id="email" name="email" placeholder="Enter Email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                   <input type="text" id="age" name="age" placeholder="Enter Age" class="form-control">
+                </div>
+                <br>
+                <button class="btn btn-success" onclick="addStudent()" id="smbtn">Submit</button>
+                <button class="btn btn-success" onclick="editStudent()" id="upbtn">Update</button>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-lg-7 col-sm-12 card p-5">
+                <h2 align="center">Stduent Details</h2>
+                <input type="text" name="search" id="search" placeholder="Search...." class="form-control" onkeyup="search(value)">
+              
+                <hr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Age</th>
+                            <th colspan="2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tdata">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

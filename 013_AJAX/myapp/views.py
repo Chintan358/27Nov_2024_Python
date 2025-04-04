@@ -18,3 +18,15 @@ def test(request):
 def country(request):
     allconutris = Country.objects.all()
     return JsonResponse({"data":list(allconutris.values())})
+
+
+
+def state(request):
+    cid = request.GET['cid']
+    allstates = State.objects.filter(country_id=cid)
+    return JsonResponse({"data":list(allstates.values())})
+
+def city(request):
+    sid = request.GET['sid']
+    allcities = City.objects.filter(state_id=sid)
+    return JsonResponse({"data":list(allcities.values())})

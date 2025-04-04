@@ -12,12 +12,48 @@
                 
                $.get('country',{},(rt)=>{
 
+                    rows="<option>---Select Country---</option>"
                     rt.data.map(ele=>{
-                       
-                    })
-               })
+                     
+                        rows+="<option value="+ele.id+">"+ele.name+"</option>"
 
+                    })
+                    $("#country").html(rows)
+               })
             })
+
+
+            const getStates = (cid)=>{
+                
+                $.get('state',{cid},(rt)=>{
+
+                rows="<option>---Select State---</option>"
+                rt.data.map(ele=>{
+ 
+                rows+="<option value="+ele.id+">"+ele.name+"</option>"
+
+                })
+                    $("#state").html(rows)
+            })
+
+            }
+
+            const getCities = (sid)=>{
+                
+                $.get('city',{sid},(rt)=>{
+
+                rows="<option>---Select State---</option>"
+                rt.data.map(ele=>{
+ 
+                rows+="<option value="+ele.id+">"+ele.name+"</option>"
+
+                })
+                    $("#city").html(rows)
+            })
+
+            }
+
+
 
             const mydata = (value)=>{
                 $.get("test",{value},(rt)=>{
@@ -41,11 +77,11 @@
     <br>
     <hr>
 
-    <select name="country" id="country">
+    <select name="country" id="country" onchange="getStates(value)">
         <option value="0">---select country---</option>
     </select>
 
-    <select name="state" id="state">
+    <select name="state" id="state" onchange="getCities(value)">
         <option value="0">---select state---</option>
     </select>
 
