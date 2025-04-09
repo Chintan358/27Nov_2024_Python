@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 align="center">Student Details</h1>
+        <hr>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Student Email</th>
+                <th>Student Age</th>
+                <th>Department</th>
+            </tr>
+            {%for student in students%}
+            <tr>
+                <td><a href="{%url 'result' student.studentid.student_id %}">{{student.studentid.student_id}}</a></td>
+                <td>{{student.name}}</td>
+                <td>{{student.email}}</td>
+                <td>{{student.age}}</td>
+                <td>{{student.department.department_name}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+
+        <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center d-flex">
+            
+                {% if students.has_previous %}
+                <li>
+                    <a href="?page=1" class="page-link">&laquo; first</a>
+                </li>
+                <li>
+                    <a href="?page={{ students.previous_page_number }}" class="page-link">previous</a>
+                </li>
+                {% endif %}
+        
+               
+                    <li class="current page-item" >
+                    Page {{ students.number }} of {{ students.paginator.num_pages }}.
+                </li>
+               
+        
+                {% if students.has_next %}
+                <li>
+                    <a href="?page={{ students.next_page_number }}" class="page-link">next</a>
+                    </li>
+                    <li>
+                    <a href="?page={{ students.paginator.num_pages }}" class="page-link">last &raquo;</a>
+                    </li>
+                {% endif %}
+           
+        </ul>
+    </nav>
+    </div>
+</body>
+</html>

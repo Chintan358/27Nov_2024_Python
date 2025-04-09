@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+</head>
+<body>
+            <div class="container">
+                <h1 align="center">Student Result</h1>
+                <hr>
+                <div class="row card p-5">
+
+                    <table class="table">
+                        <tr>
+                            <th>Student Name</th>
+                            <th colspan="2">{{marks.0.student.name}}</th>
+                        </tr>
+                        <tr>
+                            <th>Student Email</th>
+                            <th colspan="2">{{marks.0.student.email}}</th>
+                        </tr>
+                        <tr>
+                            <th>Student Age</th>
+                            <th colspan="2">{{marks.0.student.age}}</th>
+                        </tr>
+                        {%for mark in marks%}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{mark.subject.subject_name }}</td>
+                            <td>{{mark.marks}}</td>
+                        </tr>
+                        {%endfor%}
+                        <tr>
+                            <th colspan="2">Total</th>
+                            <th >{{sum.total}}</th>
+
+                        </tr>
+                        <tr>
+                            <th colspan="2">Rank</th>
+                            <th ></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+</body>
+</html>

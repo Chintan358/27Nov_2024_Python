@@ -15,3 +15,11 @@ def generate(n=50):
 
         Student.objects.create(department=dept,studentid=stid,name=name,age=age,email=email)
 
+def addmarks():
+    allStudents  =Student.objects.all()
+    for student in allStudents:
+        allsubject = Subject.objects.all()
+        for subject in allsubject:
+            marks = random.randint(1,100)
+
+            Marks.objects.create(student=student,subject=subject,marks=marks)
