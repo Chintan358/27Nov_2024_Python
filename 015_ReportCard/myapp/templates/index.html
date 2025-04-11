@@ -23,7 +23,7 @@
             <tr>
                 <td><a href="{%url 'result' student.studentid.student_id %}">{{student.studentid.student_id}}</a></td>
                 <td>{{student.name}}</td>
-                <td>{{student.email}}</td>
+                <td>{{student.email}} <a href={%url 'sendmail' student.studentid.student_id%}>SEND MAIL</a></td>
                 <td>{{student.age}}</td>
                 <td>{{student.department.department_name}}</td>
             </tr>
