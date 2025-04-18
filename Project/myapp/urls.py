@@ -12,4 +12,8 @@ urlpatterns = [
     path("shop",shop,name="shop"),
     path("loginregister",loginregister,name="loginregister"),
 
+    path("registeruser",registeruser,name="registeruser"),
+    path("loginuser",loginuser,name="loginuser"),
+    path("logoutuser",logoutuser,name="logoutuser")
+
 ]

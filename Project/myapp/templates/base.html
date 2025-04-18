@@ -25,23 +25,9 @@
   <body>
     <!--=============== HEADER ===============-->
     <header class="header">
-      <div class="header__top">
-        <div class="header__container container">
-          <div class="header__contact">
-            <span>(+01) - 2345 - 6789</span>
-            <span>Our location</span>
-          </div>
-          <p class="header__alert-news">
-            Super Values Deals - Save more coupons
-          </p>
-          <a href="login-register.html" class="header__top-action">
-            Log In / Sign Up
-          </a>
-        </div>
-      </div>
-
+     
       <nav class="nav container">
-        <a href="index.html" class="nav__logo">
+        <a href="{%url 'index'%}" class="nav__logo">
           <img
             class="nav__logo-img"
             src="static/img/logo.svg"
@@ -68,9 +54,22 @@
               <a href="{%url 'accounts'%}" class="nav__link">My Account</a>
             </li>
             
+            {%if user.id%}
+            <li class="nav__item">
+              <a href="{%url 'logoutuser'%}" class="nav__link">Logout</a>
+             
+            </li>
+            <li class="nav__item">
+              Welcome, {{user}}
+            </li>
+            {%else%}
             <li class="nav__item">
               <a href="{%url 'loginregister'%}" class="nav__link">Login</a>
             </li>
+            {% endif %}
+
+           
+
           </ul>
           <div class="header__search">
             <input
@@ -84,11 +83,8 @@
           </div>
         </div>
         <div class="header__user-actions">
-          <a href="wishlist.html" class="header__action-btn" title="Wishlist">
-            <img src="static/img/icon-heart.svg" alt="" />
-            <span class="count">3</span>
-          </a>
-          <a href="cart.html" class="header__action-btn" title="Cart">
+          
+          <a href="{%url 'cart'%}" class="header__action-btn" title="Cart">
             <img src="static/img/icon-cart.svg" alt="" />
             <span class="count">3</span>
           </a>
