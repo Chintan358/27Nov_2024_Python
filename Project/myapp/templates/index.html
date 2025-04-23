@@ -33,13 +33,16 @@
       <!--=============== PRODUCTS ===============-->
       <section class="products container section">
         <div class="tab__btns">
+          <a href="?cid=">
           <span class="tab__btn active-tab" data-target="#featured"
           >All</span
-        >
+        > </a>
           {%for category in categories%}
+          <a href="?cid={{category.id}}">
           <span class="tab__btn active-tab" data-target="#featured"
             >{{category.categoryname}}</span
           >
+          </a>
           {%endfor%}
          
         </div>
@@ -51,7 +54,7 @@
               {%for product in products%}
               <div class="product__item">
                 <div class="product__banner">
-                  <a href="{%url 'details'%}" class="product__images">
+                  <a href="{%url 'details' %}?pid={{product.id}}" class="product__images">
                     <img
                       src="media/{{product.productImage}}"
                       alt=""

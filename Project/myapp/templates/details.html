@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="details__group">
-            <h3 class="details__title">Henley Shirt</h3>
+            <h3 class="details__title">{{product.productname| title}}</h3>
             <p class="details__brand">Brand: <span>adidas</span></p>
             <div class="details__price flex">
               <span class="new__price">$116</span>
@@ -458,9 +458,9 @@
               <div class="product__badge light-orange">Hot</div>
             </div>
             <div class="product__content">
-              <span class="product__category">Clothing</span>
+              <span class="product__category">{{product.category}}</span>
               <a href="details.html">
-                <h3 class="product__title">Colorful Pattern Shirts</h3>
+                <h3 class="product__title">{{product.productname}}</h3>
               </a>
               <div class="product__rating">
                 <i class="fi fi-rs-star"></i>

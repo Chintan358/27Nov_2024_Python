@@ -6,8 +6,20 @@ from myapp.models import *
 # Create your views here.
 def index(request):
 
+    cid=0
+    if request.method=="GET":
+        data  =request.GET
+        
+        if(len(data)!=0):   
+            print("hello")
+            cid = data.get("cid")
+    
     allcategories = Category.objects.all()
-    allproducts = Product.objects.all()
+    if(cid):
+        cat = Category.objects.filter(pk=cid)
+        allproducts = Product.objects.filter(category=cid)
+    else :
+        allproducts = Product.objects.all()
     return render(request,"index.html",{"categories":allcategories,"products":allproducts})
 
 @login_required(login_url="loginregister")
@@ -23,7 +35,9 @@ def checkout(request):
     return render(request,"checkout.html")
 
 def details(request):
-    return render(request,"details.html")
+    
+    product = Product.objects.get(pk=request.GET['pid'])
+    return render(request,"details.html",{'product':product})
 
 def shop(request):
     return render(request,"shop.html")
