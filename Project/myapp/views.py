@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -28,7 +28,13 @@ def accounts(request):
 
 @login_required(login_url="loginregister")
 def cart(request):
-    return render(request,"cart.html")
+    cartdata = Cart.objects.filter(user=request.user)
+
+    sum = 0
+    for cart in cartdata:
+        sum += cart.qty*cart.product.price
+
+    return render(request,"cart.html",{"carts":cartdata,"total":sum})
 
 @login_required(login_url="loginregister")
 def checkout(request):
@@ -83,3 +89,26 @@ def loginuser(request):
 def logoutuser(request):
     logout(request)
     return redirect("index")
+
+
+
+def addtocart(request):
+    
+    if request.user.is_anonymous:
+        print(request.user)
+        return HttpResponse(request.user)
+    else:
+    
+        pid = request.GET['pid']
+        product = Product.objects.get(pk=pid)
+
+        cart = Cart.objects.filter(user=request.user,product=product)
+        print(len(cart))
+        if len(cart)>0 :
+            cart[0].qty = cart[0].qty+1
+            cart[0].save()
+            return HttpResponse("Product added into cart !!!!")
+        else:
+            Cart.objects.create(user=request.user,product=product,qty=1)
+            return HttpResponse("Product added into cart !!!!")
+    

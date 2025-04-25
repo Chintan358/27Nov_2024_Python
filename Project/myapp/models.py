@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Category(models.Model):
     categoryname = models.CharField(max_length=20)
@@ -12,3 +12,12 @@ class Product(models.Model):
     qty = models.IntegerField()
     description=models.TextField()
     productImage=models.ImageField(upload_to="productImage")    
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    qty = models.IntegerField()
+
+    def total_price(self):
+        return self.qty*self.product.price

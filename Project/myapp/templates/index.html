@@ -85,13 +85,14 @@
                     <span class="new__price">${{product.price}}</span>
                     
                   </div>
-                  <a
-                    href="#"
+                  <button
+                    onclick="addtocart('{{product.id}}')"
                     class="action__btn cart__btn"
                     aria-label="Add To Cart"
+                    
                   >
                     <i class="fi fi-rs-shopping-bag-add"></i>
-                  </a>
+                </button>
                 </div>
               </div>
               {%endfor%}
@@ -803,4 +804,20 @@
           </div>
         </div>
       </section>
+
+      <script>
+        const addtocart = (pid)=>{
+
+            $.get("addtocart",{pid},function(rt){
+
+                if(rt=="AnonymousUser")
+                {
+                    location.href="loginregister"
+                }
+                else{
+                  alert(rt)
+                }
+            })
+        }
+      </script>
 {%endblock 'body'%}

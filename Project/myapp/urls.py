@@ -17,7 +17,8 @@ urlpatterns = [
 
     path("registeruser",registeruser,name="registeruser"),
     path("loginuser",loginuser,name="loginuser"),
-    path("logoutuser",logoutuser,name="logoutuser")
+    path("logoutuser",logoutuser,name="logoutuser"),
+    path("addtocart",addtocart,name="addtocart")
 
 ]
 
