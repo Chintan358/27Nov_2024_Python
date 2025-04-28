@@ -46,10 +46,10 @@
                 <td>
                   <span class="table__price">${{cart.product.price}}</span>
                 </td>
-                <td><input type="number" value="{{cart.qty}}" class="quantity" /></td>
+                <td><input type="number" min="0" value="{{cart.qty}}" class="quantity" onchange="changeqty(value,'{{cart.id}}')" /></td>
                 <td><span class="subtotal">${{cart.total_price}}
                 </span></td>
-                <td><i class="fi fi-rs-trash table__trash"></i></td>
+                <td><button onclick="removecartitem('{{cart.id}}')"> <i class="fi fi-rs-trash table__trash"></i></button></td>
               </tr>
               {%endfor%}
             </tbody>
@@ -135,5 +135,24 @@
           </div>
         </div>
       </section>
+
+      <script>
+
+      const removecartitem = (cid)=>{
+       
+        $.get("removecart",{cid},function(rt){
+          alert(rt)
+          location.reload()
+        })
+      }
+
+
+      const changeqty = (qty,cid)=>{
+
+          $.get("changeqty",{qty,cid},function(rt){
+            location.reload()
+          })
+      }
+      </script>
 
   {%endblock 'body'%}

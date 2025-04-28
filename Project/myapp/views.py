@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from myapp.models import *
+from django.http import JsonResponse
 # Create your views here.
 def index(request):
 
@@ -112,3 +113,34 @@ def addtocart(request):
             Cart.objects.create(user=request.user,product=product,qty=1)
             return HttpResponse("Product added into cart !!!!")
     
+
+def removecart(request):
+
+    cid = request.GET['cid']
+    cart = Cart.objects.get(pk=cid)
+    cart.delete()
+    return HttpResponse("Cart Item deleted !!!")
+
+
+def changeqty(request):
+
+    cid = request.GET['cid']
+    qty = int(request.GET['qty'])
+    cart = Cart.objects.get(pk=cid)
+    if qty <=0:
+        cart.delete()
+    else: 
+        cart.qty  =qty
+        cart.save()
+    return HttpResponse("Cart Item update !!!")
+
+
+def addadr(request):
+    newadr = request.GET['adr']
+    UserAddress.objects.create(user=request.user,address=newadr)
+    return HttpResponse("address added")
+
+def viewadr(request):
+    alladr = UserAddress.objects.filter(user=request.user)
+    print(alladr)
+    return JsonResponse({"address":list(alladr.values())})

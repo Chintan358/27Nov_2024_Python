@@ -21,3 +21,23 @@ class Cart(models.Model):
 
     def total_price(self):
         return self.qty*self.product.price
+    
+class UserAddress(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    
+class UserOrder(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    date = models.DateField()
+    paymenttype = models.CharField(max_length=20)
+    pid = models.CharField(max_length=50)
+    address = models.ForeignKey(UserAddress,on_delete=models.CASCADE)
+
+
+class OrderItems(models.Model):
+    order = models.ForeignKey(UserOrder,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    price = models.IntegerField()
+    qty = models.IntegerField()
+
+

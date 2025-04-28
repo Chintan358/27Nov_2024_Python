@@ -5,3 +5,6 @@ from myapp.models import *
 admin.site.register(Category)
 admin.site.register(Product)
 admin.site.register(Cart)
+admin.site.register(UserAddress)
+admin.site.register(UserOrder)
+admin.site.register(OrderItems)

@@ -97,16 +97,25 @@
             </div>
             <div class="tab__content" content id="address">
               <h3 class="tab__header">Shipping Address</h3>
+
+              <div id="listadr">
+              
+            </div>
+            
               <div class="tab__body">
-                <address class="address">
-                  3522 Interstate <br />
-                  75 Business Spur, <br />
-                  Sault Ste. <br />
-                  Marie, Mi 49783
-                </address>
-                <p class="city">New York</p>
-                <a href="#" class="edit">Edit</a>
+                <form class="form grid">
+                  <input 
+                    type="text"
+                    placeholder="Address"
+                    class="form__input"
+                    id="newadr"
+                  />
+                  <div class="form__btn">
+                    <button class="btn btn--md" onclick="addaddress()">Save</button>
+                  </div>
+                </form>
               </div>
+             
             </div>
             <div class="tab__content" content id="change-password">
               <h3 class="tab__header">Change Password</h3>
@@ -136,5 +145,34 @@
           </div>
         </div>
       </section>
+      <script>
+
+        $(document).ready(function(){
+          viewadr()
+        })
+
+        const addaddress = ()=>{
+
+          var adr  =$("#newadr").val()
+          $.get("addadr",{adr},function(rt){
+            location.reload()
+          })  
+
+        }
+
+        const viewadr = ()=>{
+          $.get('viewadr',{},function(rt){
+           
+            var rows = ""
+            rt.address.map(ele=>{
+
+              rows+="<div class='tab__body'><h3 class='tab__header'>"+ele.address+"</h3></div>"
+            })
+          
+            $("#listadr").html(rows)
+          })
+        }
+
+      </script>
 {%endblock 'body'%}
       

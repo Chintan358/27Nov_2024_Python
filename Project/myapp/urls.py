@@ -18,7 +18,12 @@ urlpatterns = [
     path("registeruser",registeruser,name="registeruser"),
     path("loginuser",loginuser,name="loginuser"),
     path("logoutuser",logoutuser,name="logoutuser"),
-    path("addtocart",addtocart,name="addtocart")
+    path("addtocart",addtocart,name="addtocart"),
+    path("removecart",removecart,name="removecart"),
+    path("changeqty",changeqty,name="changeqty"),
+    path("addadr",addadr,name="addadr"),
+    path("viewadr",viewadr,name="viewadr")
+
 
 ]
 
