@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from myapp.models import *
 from django.http import JsonResponse
+import razorpay
 # Create your views here.
 def index(request):
 
@@ -39,7 +40,12 @@ def cart(request):
 
 @login_required(login_url="loginregister")
 def checkout(request):
-    return render(request,"checkout.html")
+    cartdata = Cart.objects.filter(user=request.user)
+    addressdata = UserAddress.objects.filter(user=request.user)
+    sum = 0
+    for cart in cartdata:
+        sum += cart.qty*cart.product.price
+    return render(request,"checkout.html",{"carts":cartdata,"total":sum,"addresses":addressdata})
 
 def details(request):
     
@@ -144,3 +150,15 @@ def viewadr(request):
     alladr = UserAddress.objects.filter(user=request.user)
     print(alladr)
     return JsonResponse({"address":list(alladr.values())})
+
+
+def pay(request):
+
+    amt = int(request.GET['amt'])
+   
+    client = razorpay.Client(auth=("rzp_test_oox9ZKsz6Uu09W", "1umN06wc9ZHC2blBvuR41bN9"))
+
+    data = { "amount": amt*100, "currency": "INR", "receipt": "order_rcptid_11" }
+    payment = client.order.create(data=data)  # Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    print(payment)
+    return JsonResponse(payment)

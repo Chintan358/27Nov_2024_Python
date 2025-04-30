@@ -15,22 +15,12 @@
       <section class="checkout section--lg">
         <div class="checkout__container container grid">
           <div class="checkout__group">
-            <h3 class="section__title">Billing Details</h3>
-            <form class="form grid">
-              <input type="text" placeholder="Name" class="form__input" />
-              <input type="text" placeholder="Address" class="form__input" />
-              <input type="text" placeholder="City" class="form__input" />
-              <input type="text" placeholder="Country" class="form__input" />
-              <input type="text" placeholder="Postcode" class="form__input" />
-              <input type="text" placeholder="Phone" class="form__input" />
-              <input type="email" placeholder="Email" class="form__input" />
-              <h3 class="checkout__title">Additional Information</h3>
-              <textarea
-                name=""
-                placeholder="order note"
-                class="form__input textarea"
-              ></textarea>
-            </form>
+            <h3 class="section__title">Address To Delever</h3>
+            {%for adr in addresses%}
+            <div class='tab__body'><h3 class='tab__header'>
+              <input type="radio" value="{{adr.address}}" name="address"> {{adr.address}}
+            </h3></div>
+            {%endfor%}
           </div>
           <div class="checkout__group">
             <h3 class="section__title">Cart Totals</h3>
@@ -43,51 +33,25 @@
               </thead>
 
               <tbody>
+                {%for cart in carts%}
                 <tr>
                   <td>
                     <img
-                      src="./static/img/product-1-2.jpg"
+                      src="media/{{cart.product.productImage}}"
                       alt=""
                       class="order__img"
                     />
                   </td>
                   <td>
-                    <h3 class="table__title">Yidarton Women Summer Blue</h3>
-                    <p class="table__quantity">x 2</p>
+                    <h3 class="table__title">{{cart.product.productname}}</h3>
+                    <p class="table__quantity">x {{cart.qty}}</p>
                   </td>
-                  <td><span class="table__price">$180.00</span></td>
+                  <td><span class="table__price">${{cart.total_price}}</span></td>
                 </tr>
-                <tr>
-                  <td>
-                    <img
-                      src="./static/img/product-2-1.jpg"
-                      alt=""
-                      class="order__img"
-                    />
-                  </td>
-                  <td>
-                    <h3 class="table__title">LDB Moon Summer</h3>
-                    <p class="table__quantity">x 1</p>
-                  </td>
-                  <td><span class="table__price">$65.00</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      src="./static/img/product-7-1.jpg"
-                      alt=""
-                      class="order__img"
-                    />
-                  </td>
-                  <td>
-                    <h3 class="table__title">Women Short Sleeve Loose</h3>
-                    <p class="table__quantity">x 2</p>
-                  </td>
-                  <td><span class="table__price">$35.00</span></td>
-                </tr>
+               {%endfor%}
                 <tr>
                   <td><span class="order__subtitle">Subtotal</span></td>
-                  <td colspan="2"><span class="table__price">$280.00</span></td>
+                  <td colspan="2"><span class="table__price">${{total}}</span></td>
                 </tr>
                 <tr>
                   <td><span class="order__subtitle">Shipping</span></td>
@@ -98,7 +62,7 @@
                 <tr>
                   <td><span class="order__subtitle">Total</span></td>
                   <td colspan="2">
-                    <span class="order__grand-total">$280.00</span>
+                    <span class="order__grand-total">$<span id="amt"> {{total}}</span></span>
                   </td>
                 </tr>
               </tbody>
@@ -136,9 +100,65 @@
                 <label for="l3" class="payment__label">Paypal</label>
               </div>
             </div>
-            <button class="btn btn--md">Place Order</button>
+            <button class="btn btn--md"  id="makepayment">Place Order</button>
           </div>
         </div>
       </section>
+
+
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+      
+      document.getElementById('makepayment').onclick = function(e){
+      
+          var amt = document.getElementById("amt").innerHTML
+         
+          e.preventDefault();
+          $.get("pay",{amt},function(rt){
+      
+             
+              var options = {
+          "key": "rzp_test_oox9ZKsz6Uu09W", // Enter the Key ID generated from the Dashboard
+          "amount": rt.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          "currency": "INR",
+          "name": "Tops tech",
+          "description": "Test Transaction",
+          "image": "https://example.com/your_logo",
+          "order_id": rt.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          "handler": function (response){
+              alert(response.razorpay_payment_id);
+              
+
+          },
+          "prefill": {
+              "name": "Gaurav Kumar",
+              "email": "gaurav.kumar@example.com",
+              "contact": "9000090000"
+          },
+          "notes": {
+              "address": "Razorpay Corporate Office"
+          },
+          "theme": {
+              "color": "#3399cc"
+          }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.on('payment.failed', function (response){
+              alert(response.error.code);
+              alert(response.error.description);
+              alert(response.error.source);
+              alert(response.error.step);
+              alert(response.error.reason);
+              alert(response.error.metadata.order_id);
+              alert(response.error.metadata.payment_id);
+      });
+      
+              rzp1.open();
+          })
+      
+         
+          
+      }
+      </script>
 
    {%endblock 'body'%}
