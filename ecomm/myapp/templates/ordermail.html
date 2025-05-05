@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="tab__content" content id="orders">
+        <h3 class="tab__header">Your Orders</h3>
+        <div class="tab__body">
+          {%for order in orders%}
+          
+          <table class="placed__order-table">
+            <thead>
+              <tr>
+                <th>Ordrt Id : {{order.orderid}}</th>
+                <th>Date : {{order.date}}</th>
+                <th>Payment Type : {{order.paymenttype}}</th>
+                <th>PayId : ${{order.pid}}</th>
+    
+              </tr>
+              <tr>  
+                <th>Address</th>
+                <th colspan="3">{{order.address.address}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PID</td>
+                <td>ProductName</td>
+                <td>Image</td>
+                <td>Price</td>
+                <td>QTY</td>
+                <td>Total</td>
+              </tr>
+              {%for item in order.items.all%}
+              <tr>
+                <td>{{item.product.id}}</td>
+                <td>{{item.product.productname}}</td>
+                <td><img src="media/{{item.product.productImage}}" alt="" class="table__img" /></td>
+                <td>${{item.price}}</td>
+                <td>{{item.qty}}</td>
+                <td>${{item.total_price}}</td>  
+              </tr>
+              {%endfor%}
+             
+            </tbody>
+    
+    
+          
+    
+          </table>
+          <br>
+          {%endfor%}
+        </div>
+      </div>
+</body>
+</html>

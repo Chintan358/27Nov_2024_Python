@@ -1,0 +1,155 @@
+{%extends 'base.html'%}
+{%block 'body'%}
+      <!--=============== BREADCRUMB ===============-->
+      <section class="breadcrumb">
+        <ul class="breadcrumb__list flex container">
+          <li><a href="index.html" class="breadcrumb__link">Home</a></li>
+          <li><span class="breadcrumb__link">></span></li>
+          <li><span class="breadcrumb__link">Shop</span></li>
+          <li><span class="breadcrumb__link">></span></li>
+          <li><span class="breadcrumb__link">Checkout</span></li>
+        </ul>
+      </section>
+
+      <!--=============== CHECKOUT ===============-->
+      <section class="checkout section--lg">
+        <div class="checkout__container container grid">
+          <div class="checkout__group">
+            <h3 class="section__title">Address To Deliver</h3>
+            <a href="{%url 'accounts'%}" class="btn btn--md">Add Address</a>
+            
+            {%for adr in addresses%}
+            <div class='tab__body'><h3 class='tab__header'>
+              <input type="radio" value="{{adr.id}}" name="address" id="adr"> {{adr.address}}
+            </h3></div>
+            {%endfor%}
+          </div>
+          <div class="checkout__group">
+            <h3 class="section__title">Cart Totals</h3>
+            <table class="order__table">
+              <thead>
+                <tr>
+                  <th colspan="2">Products</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {%for cart in carts%}
+                <tr>
+                  <td>
+                    <img
+                      src="media/{{cart.product.productImage}}"
+                      alt=""
+                      class="order__img"
+                    />
+                  </td>
+                  <td>
+                    <h3 class="table__title">{{cart.product.productname}}</h3>
+                    <p class="table__quantity">x {{cart.qty}}</p>
+                  </td>
+                  <td><span class="table__price">${{cart.total_price}}</span></td>
+                </tr>
+               {%endfor%}
+                <tr>
+                  <td><span class="order__subtitle">Subtotal</span></td>
+                  <td colspan="2"><span class="table__price">${{total}}</span></td>
+                </tr>
+                <tr>
+                  <td><span class="order__subtitle">Shipping</span></td>
+                  <td colspan="2">
+                    <span class="table__price">Free Shipping</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="order__subtitle">Total</span></td>
+                  <td colspan="2">
+                    <span class="order__grand-total">$<span id="amt"> {{total}}</span></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="payment__methods">
+              <h3 class="checkout__title payment__title">Payment</h3>
+             
+              
+              <div class="payment__option flex">
+                <input
+                  type="radio"
+                  name="radio"
+                  id="l3"
+                  class="payment__input"
+                  value="Online"
+                />
+                <label for="l3" class="payment__label">Online</label>
+              </div>
+            </div>
+            <button class="btn btn--md"  id="makepayment">Place Order</button>
+          </div>
+        </div>
+      </section>
+
+
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+      
+      document.getElementById('makepayment').onclick = function(e){
+      
+          var amt = document.getElementById("amt").innerHTML
+         // var addr = document.getElementsById("address")
+         
+          e.preventDefault();
+          $.get("pay",{amt},function(rt){
+      
+             
+              var options = {
+          "key": "rzp_test_oox9ZKsz6Uu09W", // Enter the Key ID generated from the Dashboard
+          "amount": rt.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          "currency": "INR",
+          "name": "Tops tech",
+          "description": "Test Transaction",
+          "image": "https://example.com/your_logo",
+          "order_id": rt.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          "handler": function (response){
+              var payid = response.razorpay_payment_id;
+              var adr = document.querySelector('input[name="address"]:checked').value;
+              var type = document.querySelector('input[name="radio"]:checked').value;
+              
+              $.get("orderplaced",{payid,adr,type},function(rt){
+                  alert(rt)
+                  location.reload()
+              })             
+
+
+          },
+          "prefill": {
+              "name": "Gaurav Kumar",
+              "email": "gaurav.kumar@example.com",
+              "contact": "9000090000"
+          },
+          "notes": {
+              "address": "Razorpay Corporate Office"
+          },
+          "theme": {
+              "color": "#3399cc"
+          }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.on('payment.failed', function (response){
+              alert(response.error.code);
+              alert(response.error.description);
+              alert(response.error.source);
+              alert(response.error.step);
+              alert(response.error.reason);
+              alert(response.error.metadata.order_id);
+              alert(response.error.metadata.payment_id);
+      });
+      
+              rzp1.open();
+          })
+      
+          
+      } 
+      </script>
+
+   {%endblock 'body'%}
