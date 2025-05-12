@@ -10,4 +10,5 @@ urlpatterns = [
         path("updatepstudent/<id>",updatepstudent,name="updatepstudent"),
 
         path("books",BookAPI.as_view())
+
 ]
