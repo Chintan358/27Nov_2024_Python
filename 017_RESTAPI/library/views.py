@@ -100,3 +100,4 @@ class PublicationAPI(APIView):
         except Exception as e :
             print("errr")
             return Response({"message":"Somthing went wrong","Errors":e})
+        
