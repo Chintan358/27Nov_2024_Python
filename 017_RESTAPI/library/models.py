@@ -15,3 +15,4 @@ class Book(models.Model):
     publication = models.ForeignKey(Publication,on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     qty = models.IntegerField()
+
