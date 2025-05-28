@@ -4,11 +4,30 @@ from rest_framework.response import Response
 from myapp.serializer import *
 from myapp.models import *
 # Create your views here.
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
+@api_view(['POST'])
+def registeruser(request):
+    if request.method == "POST":
+        try:
+            serializer = UserSerializer(data=request.data)
+            if serializer.is_valid():
+                user = serializer.save()
+                return Response({"message": "User created successfully", "user_id": user.id}, status=201)
+            return Response(serializer.errors, status=400)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+    return Response({"message": "Use POST method to create a user"}, status=405)
 
 class CategoryAPI(APIView):
+        
+        authentication_classes = [SessionAuthentication, BasicAuthentication]
+        permission_classes = [IsAuthenticated]
 
         def get(self,request):
-                
+                 
                 try :
                 # Fetch all categories
                     categories = Category.objects.all()
