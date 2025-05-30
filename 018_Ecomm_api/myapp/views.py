@@ -6,7 +6,7 @@ from myapp.models import *
 # Create your views here.
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 @api_view(['POST'])
 def registeruser(request):
@@ -23,11 +23,14 @@ def registeruser(request):
 
 class CategoryAPI(APIView):
         
-        authentication_classes = [SessionAuthentication, BasicAuthentication]
+        # authentication_classes = [SessionAuthentication, BasicAuthentication]
+        authentication_classes = [JWTAuthentication]
         permission_classes = [IsAuthenticated]
 
         def get(self,request):
                  
+                print(request.user)
+
                 try :
                 # Fetch all categories
                     categories = Category.objects.all()
