@@ -22,12 +22,9 @@ async def myapi(s1:Student):
     return {"message":"post api calling"}
 
 
-
-
 @app.get("/data")
 async def myapi(id:int):
     return {"message":id}
-
 
 if __name__ == "__main__":
    uvicorn.run("myapp:app", host="127.0.0.1", port=8000, reload=True)
