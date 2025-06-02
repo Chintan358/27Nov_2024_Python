@@ -4,7 +4,7 @@ from library.models import *
 from library.serializer import *
 from rest_framework.response import Response
 # Create your views here.
-
+from rest_framework import generics
 
 class AuthorAPI(APIView) :   
     
@@ -112,30 +112,30 @@ class BookAPI(APIView):
         except Exception as e :
             return Response({"message":"Somthing went wrong","Errors":e})
         
-    def post(self,request):
-        try :
-            ser = BookSerializer(data = request.data)   
-            if not ser.is_valid():
-                return Response({"message":"something went wrong","Errors":ser.errors})
-            ser.save()
-            return Response({"message":"success","status":"201","data":ser.data})
-        except Exception as e :
-            print("errr")
-            return Response({"message":"Somthing went wrong","Errors":e})
+    # def post(self,request):
+    #     try :
+    #         ser = BookSerializer(data = request.data)   
+    #         if not ser.is_valid():
+    #             return Response({"message":"something went wrong","Errors":ser.errors})
+    #         ser.save()
+    #         return Response({"message":"success","status":"201","data":ser.data})
+    #     except Exception as e :
+    #         print("errr")
+    #         return Response({"message":"Somthing went wrong","Errors":e})
 
-    def put(self,request):
-        try :
-            book = Book.objects.get(pk=request.data['id'])
-            ser = BookSerializer(book, request.data)
-            if not ser.is_valid():
-                return Response({"message":"something went wrong","Errors":ser.errors})
+    # def put(self,request):
+    #     try :
+    #         book = Book.objects.get(pk=request.data['id'])
+    #         ser = BookSerializer(book, request.data)
+    #         if not ser.is_valid():
+    #             return Response({"message":"something went wrong","Errors":ser.errors})
             
-            ser.save()
-            return Response({"message":"success","status":"201","data":ser.data})
+    #         ser.save()
+    #         return Response({"message":"success","status":"201","data":ser.data})
 
-        except Exception as e :
-            print("errr")
-            return Response({"message":"Somthing went wrong","Errors":e})
+    #     except Exception as e :
+    #         print("errr")
+    #         return Response({"message":"Somthing went wrong","Errors":e})
     def delete(self,request):
         try :
             book = Book.objects.get(pk=request.data['id'])  
@@ -163,4 +163,10 @@ def addbook(requset, aid, pid):
     except Exception as e:
         print("errr")
         return Response({"message": "Somthing went wrong", "Errors": e})
+   
+
+
+class AuthorGeneric(generics.ListCreateAPIView):
+    queryset  = Author.objects.all()
+    serializer_class=AuthorSerializer
    
