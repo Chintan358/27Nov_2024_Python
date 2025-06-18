@@ -10,11 +10,19 @@ from django.contrib.auth.models import User
 def index(request):
     products = Product.objects.all()
     categories = Category.objects.all()
+
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user)
+        cart_count = cart_items.count()
+        request.session['cart_count'] = cart_count
+    else:
+        request.session['cart_count'] = 0
    
     context = {
         'products': products,
         'categories': categories,
         'title': 'Home',
+        'cart_count': request.session['cart_count']
     }
     return render(request,"index.html", context)
 
@@ -22,9 +30,9 @@ def index(request):
 def cart(request):
     
     cart_items = Cart.objects.filter(user=request.user)
-    #total_price = sum(item.product.price * item.qty for item in cart_items)
+    total_price = sum(item.total_price() for item in cart_items)
 
-    return render(request,"cart.html", {'cart_items': cart_items, 'title': 'Cart'})
+    return render(request,"cart.html", {'cart_items': cart_items, 'title': 'Cart', 'total_price': total_price})
 
 def checkout(request):
     return render(request,"checkout.html")
@@ -112,4 +120,31 @@ def add_to_cart(request):
             qty=1  # Default quantity is set to 1
         )
         return HttpResponse(f"Product added to cart successfully: {product.productname}")
-        
+    
+
+def change_cart_item_qty(request):
+    
+    
+    cart_item_id = request.GET.get('item_id')
+    new_qty = int(request.GET.get('change'))  # Default to 1 if not provided
+
+    try:
+        cart_item = Cart.objects.get(id=cart_item_id, user=request.user)
+        cart_item.qty = cart_item.qty+ new_qty  # Update the quantity by adding the new_qty
+        if cart_item.qty <= 0:
+            cart_item.delete()  # Remove item if quantity is zero or less
+            return HttpResponse("Cart item removed due to zero quantity")
+        cart_item.save()
+        return HttpResponse(f"Cart item quantity updated to {new_qty}")
+    except Cart.DoesNotExist:
+        return HttpResponse("Cart item not found")
+
+def remove_cart_item(request):
+    cart_item_id = request.GET.get('item_id')
+
+    try:
+        cart_item = Cart.objects.get(id=cart_item_id, user=request.user)
+        cart_item.delete()  # Remove the item from the cart
+        return HttpResponse("Cart item removed successfully")
+    except Cart.DoesNotExist:
+        return HttpResponse("Cart item not found")

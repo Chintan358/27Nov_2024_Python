@@ -21,6 +21,9 @@ urlpatterns = [
 
     path("add-to-cart", add_to_cart, name="add_to_cart"),
 
+    path("change_cart_item_qty", change_cart_item_qty, name="change_cart_item_qty"),
+    path("remove_cart_item", remove_cart_item, name="remove_cart_item"),
+
 
     
 ]
