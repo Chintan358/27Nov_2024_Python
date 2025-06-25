@@ -46,7 +46,7 @@ class UserOrder(models.Model):
     date = models.DateField()
     paymenttype = models.CharField(max_length=20)
     pid = models.CharField(max_length=50)
-    address = models.ForeignKey(UserAddress,on_delete=models.CASCADE)
+   
 
 
 class OrderItems(models.Model):
@@ -54,3 +54,13 @@ class OrderItems(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     price = models.IntegerField()
     qty = models.IntegerField()
+
+    def total_price(self):
+        return self.price * self.qty
+    
+    #total by order id
+    @classmethod
+    def total_by_order(cls, order_id):
+        items = cls.objects.filter(order_id=order_id)
+        total = sum(item.total_price() for item in items)
+        return total

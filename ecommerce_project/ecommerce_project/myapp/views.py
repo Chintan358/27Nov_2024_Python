@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+import razorpay
+import datetime
 
 # Create your views here.
 def index(request):
@@ -148,3 +150,51 @@ def remove_cart_item(request):
         return HttpResponse("Cart item removed successfully")
     except Cart.DoesNotExist:
         return HttpResponse("Cart item not found")
+    
+
+def payment(request):
+
+    # Initialize Razorpay client with your API key and secret
+    amount = int(request.GET.get('amount') ) # Default amount is 500 if not provided
+    client = razorpay.Client(auth=("rzp_test_oox9ZKsz6Uu09W", "1umN06wc9ZHC2blBvuR41bN9"))
+    data = { "amount": amount*100, "currency": "INR", "receipt": "order_rcptid_11" }
+    payment = client.order.create(data=data) # Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    print(payment)
+    return JsonResponse(payment)  # This will return the payment order details as a response
+
+
+def order(request):
+    
+        payid = request.GET.get('razorpay_payment_id')
+        orderid = request.GET.get('razorpay_order_id')
+        user = request.user
+
+        
+        # Create UserOrder instance
+        order = UserOrder.objects.create(
+            user=user,
+            #use current date for order date
+            date= datetime.date.today(),
+            paymenttype="online",
+            orderid=orderid,
+            pid=payid
+        )
+
+        # Process cart items and create OrderItems
+        cart_items = Cart.objects.filter(user=user)
+        for item in cart_items:
+            OrderItems.objects.create(
+                order=order,
+                product=item.product,
+                price=item.product.price,
+                qty=item.qty
+            )
+            item.delete()  # Remove item from cart after processing
+
+        return HttpResponse("Order placed successfully")
+def order_success(request):
+    user = request.user
+    orders = UserOrder.objects.filter(user=user).order_by('-date')  # Get user's orders in reverse chronological order
+
+    return render(request, "orders.html", {'orders': orders})
+   
