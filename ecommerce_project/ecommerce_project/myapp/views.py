@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import razorpay
 import datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 def index(request):
@@ -180,6 +182,11 @@ def order(request):
             pid=payid
         )
 
+
+        msg = "<table border='1' style='width:100%;'>"
+        msg += "<tr><th colspan='4'>Order Details</th></tr>"
+        msg += f"<tr><td>Order ID</td><td>{order.orderid}</td><td>Payment ID</td><td>{order.pid}</td></tr>"
+        msg += "<tr><th>Product Name</th><th>Price</th><th>Quantity</th><th>total</th></tr>"
         # Process cart items and create OrderItems
         cart_items = Cart.objects.filter(user=user)
         for item in cart_items:
@@ -189,8 +196,18 @@ def order(request):
                 price=item.product.price,
                 qty=item.qty
             )
-            item.delete()  # Remove item from cart after processing
 
+            
+            msg += f"<tr><td>{item.product.productname}</td><td>{item.product.price}</td><td>{item.qty}</td><td>{item.product.price * item.qty}</td></tr>"
+
+            item.delete()  # Remove item from cart after processing
+       
+        msg += f"<tr><td colspan='3'>Total Amount</td><td>{order.items.aggregate(total_price=models.Sum('price'))['total_price']}</td></tr>"
+        msg += "</table>"
+
+        send_mail("Order Confirmation", "order confirm", settings.EMAIL_HOST_USER, [user.email], 
+                    html_message=msg
+            )
         return HttpResponse("Order placed successfully")
 def order_success(request):
     user = request.user
