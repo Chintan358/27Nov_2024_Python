@@ -1,0 +1,172 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>EShopper - {{title}}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Free HTML Templates" name="description" />
+    <meta content="Free HTML Templates" name="keywords" />
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link
+      href="static/lib/owlcarousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+      <div
+        class="d-flex flex-column align-items-center justify-content-center"
+        style="min-height: 150px"
+      >
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">
+          User Registration
+        </h1>
+        <div class="d-inline-flex">
+          <p class="m-0"><a href="{%url 'index'%}">Home</a></p>
+          <p class="m-0 px-2">-</p>
+          <p class="m-0"><a href="{%url 'login'%}">Login</a></p>
+        </div>
+      </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Contact Start -->
+    <div class="container-fluid pt-5">
+      <div class="row px-xl-5">
+        <div class="col-lg-5 mb-5 mx-auto">
+          <div class="contact-form">
+            <div id="success" class="text-success">{{message}}</div>
+            <form
+              id="contactForm"
+              novalidate="novalidate"
+              method="post"
+              action="{% url 'register' %}"
+            >
+              {% csrf_token %}
+              <div class="control-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="first_name"
+                  name="first_name"
+                  placeholder="Your firstname"
+                  required="required"
+                  data-validation-required-message="Please enter your firstname"
+                />
+                <p class="help-block text-danger"></p>
+              </div>
+
+              <div class="control-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="last_name"
+                  name="last_name"
+                  placeholder="Your lastname"
+                  required="required"
+                  data-validation-required-message="Please enter your lastname"
+                />
+                <p class="help-block text-danger"></p>
+              </div>
+
+              <div class="control-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Your username"
+                  required="required"
+                  data-validation-required-message="Please enter your username"
+                />
+                <p class="help-block text-danger"></p>
+              </div>
+
+              <div class="control-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Your Email"
+                  required="required"
+                  data-validation-required-message="Please enter your username"
+                />
+                <p class="help-block text-danger"></p>
+              </div>
+
+              <div class="control-group">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Your password"
+                  required="required"
+                  data-validation-required-message="Please enter your password"
+                />
+                <p class="help-block text-danger"></p>
+              </div>
+
+              <div>
+                <button
+                  class="btn btn-primary py-2 px-4"
+                  type="submit"
+                  id="sendMessageButton"
+                >
+                  sign Up
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Contact End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"
+      ><i class="fa fa-angle-double-up"></i
+    ></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+{%extends 'base.html'%} {%block content%}
+
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+  <div
+    class="d-flex flex-column align-items-center justify-content-center"
+    style="min-height: 300px"
+  >
+    <h1 class="font-weight-semi-bold text-uppercase mb-3">My ORders</h1>
+    <div class="d-inline-flex">
+      <p class="m-0"><a href="">Home</a></p>
+    </div>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Cart Start -->
+<div class="container-fluid pt-5">
+  <div class="row px-xl-5">
+    <div class="col-lg-8 table-responsive mb-5">
+      {%for order in orders%}
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Order ID: {{order.orderid}}</h5>
+          <p>Date: {{order.date}}</p>
+          <p>Total Amount: ${{order.total}}</p>
+          <p>Address: {{order.address}}</p>
+        </div>
+        <div class="card-body">
+          <h6>Items:</h6>
+          <table class="table table-bordered text-center mb-0">
+            {%for item in order.items.all%}
+            <tr>
+              <td>
+                <img
+                  src="media/{{item.product.productimage}}"
+                  alt=""
+                  style="width: 50px"
+                />
+              </td>
+              <td>{{item.product.productname}}</td>
+              <td>${{item.price}}</td>
+              <td>{{item.qty}}</td>
+              <td>${{item.total_price}}</td>
+            </tr>
+
+            {%endfor%}
+          </table>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+  <!-- Cart End -->
+
+  {%endblock%}
+</div>

@@ -1,0 +1,53 @@
+{%extends 'base.html'%} {%block content%}
+
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+  <div
+    class="d-flex flex-column align-items-center justify-content-center"
+    style="min-height: 300px"
+  >
+    <h1 class="font-weight-semi-bold text-uppercase mb-3">User Profile</h1>
+    <div class="d-inline-flex">
+      <p class="m-0"><a href="">Home</a></p>
+    </div>
+  </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Contact Start -->
+<div class="container-fluid pt-5">
+  <div class="text-center mb-4"></div>
+  <div class="row px-xl-5">
+    <div class="col-lg-5 mb-5 card p-3">
+      <div class="bg-light p-30 mb-5">
+        <h4 class="mb-4">User Information</h4>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <p><strong>Address:</strong> {{ address.address }}</p>
+      </div>
+    </div>
+    <div class="col-lg-5 mb-5 card p-3 mx-auto">
+      <div class="bg-light p-30 mb-5">
+        <h4 class="mb-4">User Address</h4>
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              name="address"
+            />
+          </div>
+          <input type="submit" class="btn btn-primary" value="Update Address" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Contact End -->
+
+{% endblock %}

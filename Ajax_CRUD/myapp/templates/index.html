@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(document).ready(function () {
+        load();
+      });
+
+      const load = () => {
+        $.get("display", {}, function (rt) {
+          var rows = "";
+          rt.students.map((ele) => {
+            rows += `<tr><td>${ele.id}</td><td>${ele.name}</td><td>${ele.email}</td><td>${ele.phone}</td><td>${ele.age}</td></tr>`;
+          });
+          $("#tdata").html(rows);
+        });
+      };
+
+      const addstudent = () => {
+        var csrfmiddlewaretoken = document.getElementsByName(
+          "csrfmiddlewaretoken"
+        )[0].value;
+
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var age = $("#age").val();
+
+        $.post(
+          "register",
+          { csrfmiddlewaretoken, name, email, phone, age },
+          function (rt) {
+            alert(rt);
+            load();
+
+            $("#name").val("");
+            $("#email").val("");
+            $("#phone").val("");
+            $("#age").val("");
+          }
+        );
+      };
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-5">
+          <h2>Student Registraation</h2>
+          <hr />
+          {%csrf_token%}
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter name"
+            class="form-control"
+          />
+          <br />
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="Enter Email"
+            class="form-control"
+          />
+          <br />
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            placeholder="Enter Phone"
+            class="form-control"
+          />
+          <br />
+          <input
+            type="text"
+            name="age"
+            id="age"
+            placeholder="Enter age"
+            class="form-control"
+          />
+          <br />
+          <button class="btn btn-success" onclick="addstudent()">Submit</button>
+        </div>
+        <div class="col-7">
+          <h2>Student Details</h2>
+          <hr />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Age</th>
+              </tr>
+            </thead>
+            <tbody id="tdata"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
